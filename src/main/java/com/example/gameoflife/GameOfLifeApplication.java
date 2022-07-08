@@ -6,8 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GameOfLifeApplication {
 
-    public static void main(String[] args) throws InterruptedException {
-        SpringApplication.run(GameOfLifeApplication.class, args);
-        LifeRunner.startGame();
+    public static void main(String[] args) {
+        SpringApplication.run(GameOfLifeApplication.class, args);;
     }
 }

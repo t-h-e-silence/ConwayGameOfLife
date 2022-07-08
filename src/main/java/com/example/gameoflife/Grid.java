@@ -1,15 +1,26 @@
 package com.example.gameoflife;
 
-import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class Grid {
-    public int[][] cells;
-    public int rows;
-    public int cols;
-    public int amountOfAlLCells;
-    public int amountOfAliveCells;
+    private int[][] cells;
+    private int rows;
+    private int cols;
+    private int amountOfAlLCells;
+    AtomicInteger amountOfAliveCells = new AtomicInteger(0);
+    private int amountOfActiveThreads;
 
     public Grid() {
+    }
+
+    public Grid(int rows, int cols, int amountOfAliveCells, int amountOfActiveThreads) {
+        this.rows = rows;
+        this.cols = cols;
+        this.cells = new int[cols][rows];
+        this.amountOfAliveCells.set(amountOfAliveCells);
+        this.amountOfAlLCells = cols * rows;
+        this.amountOfActiveThreads = amountOfActiveThreads;
     }
 
     public Grid(int rows, int cols) {
@@ -17,12 +28,6 @@ public class Grid {
         this.cols = cols;
         this.cells = new int[cols][rows];
         this.amountOfAlLCells = cols * rows;
-        this.amountOfAliveCells = 15;
-
-        Random random = new Random();
-        for (int i = 0; i < amountOfAliveCells; i++) {
-            this.cells[random.nextInt(rows)][random.nextInt(this.cols)] = 1;
-        }
     }
 
     public int[][] getCells() {
@@ -34,19 +39,11 @@ public class Grid {
     }
 
     public int getAmountOfAliveCells() {
-        return amountOfAliveCells;
+        return amountOfAliveCells.get();
     }
 
-    public void setAmountOfAliveCells() {
-        int amountOfAlive = 0;
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                if (cells[i][j] == 1) {
-                 amountOfAlive++;
-                }
-            }
-        }
-        this.amountOfAliveCells=amountOfAlive;
+    public void setAmountOfAliveCells(int amountOfAlive) {
+        this.amountOfAliveCells.set(amountOfAlive);
     }
 
     public int getRows() {
@@ -59,5 +56,13 @@ public class Grid {
 
     public int getAmountOfAlLCells() {
         return amountOfAlLCells;
+    }
+
+    public int getAmountOfActiveThreads() {
+        return amountOfActiveThreads;
+    }
+
+    public void setAmountOfActiveThreads(int amountOfActiveThreads) {
+        this.amountOfActiveThreads = amountOfActiveThreads;
     }
 }
